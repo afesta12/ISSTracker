@@ -13,9 +13,15 @@ const myIcon = L.icon({
 
 const marker = L.marker([0, 0], {icon: myIcon}).addTo(map);
 
+// Variables
+const lat = document.getElementById("lat");
+const long = document.getElementById("long")
+
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
+    noWrap: true,
+    bounds: [[-90, -180], [90, 180]],
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
@@ -26,8 +32,13 @@ async function getISSLocation() {
 
     const {latitude, longitude} = data;
 
+    lat.textContent = latitude.toFixed(2) + '°';
+    long.textContent = longitude.toFixed(2) + '°';
+
     marker.setLatLng([latitude, longitude]);
 
 }
 
 getISSLocation();
+
+setInterval(getISSLocation, 1000)
